@@ -6,8 +6,8 @@
     <span>Blockcore DApp Sample</span>
     <span class="example-spacer"></span>
 
-    <button mat-flat-button>connect</button>&nbsp;
-    <button mat-flat-button>get_accounts</button>
+    <!-- <button mat-flat-button (click)="connect()">connect</button>&nbsp;
+    <button mat-flat-button (click)="getAccounts()">get_accounts</button> -->
   </mat-toolbar>
 </p>
 
@@ -16,9 +16,58 @@
     <div class="logo">
       <img src="/assets/icon-256x256.png" />
     </div>
+
+    <div *ngIf="provider">CURRENT NETWORK: {{ provider.indexer.network }}</div>
   </mat-card>
 
-  <div>
+  <div class="actions">
+    <br />
+
+    <p>
+      <button mat-flat-button (click)="initialize()">initialize provider</button>
+    </p>
+  </div>
+
+  <div class="actions" *ngIf="provider">
+    <br />
+
+    <p>
+      <button mat-flat-button (click)="setNetwork('CITY')">
+        set network (CITY)
+      </button>
+      <button mat-flat-button (click)="setNetwork('STRAX')">
+        set network (STRAX)
+      </button>
+      <button mat-flat-button (click)="setNetwork('X42')">
+        set network (X42)
+      </button>
+    </p>
+
+    <p>
+      <button mat-flat-button (click)="signMessageAnyAccount()">
+        signMessage any account
+      </button>
+      <button mat-flat-button disabled="disabled" (click)="signMessage()">
+        signMessage (current network)
+      </button>
+      <button mat-flat-button disabled="disabled" (click)="signMessage('X42')">
+        signMessage (X42)
+      </button>
+      <button mat-flat-button disabled="disabled" (click)="signMessage('CITY')">
+        signMessage (CITY)
+      </button>
+    </p>
+
+    <p>
+      <button mat-flat-button (click)="connect()" disabled="disabled">connect</button>
+      <button mat-flat-button (click)="getAccounts()" disabled="disabled">get_accounts</button>
+    </p>
+
+    <p>
+      <button mat-flat-button (click)="paymentRequestCity()">payment request (CITY)</button>
+      <button mat-flat-button (click)="paymentRequestStrax()">payment request (STRAX)</button>
+    </p>
+
     <router-outlet></router-outlet>
   </div>
 </div>
