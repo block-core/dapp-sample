@@ -2,6 +2,10 @@
 
 Decentralized application (DApp) that demonstrates interaction from third party apps and Blockcore ecosystem
 
+## Inspiration
+
+This app will have similar features as the E2E Test Dapp for MetaMask: [https://metamask.github.io/test-dapp/](https://metamask.github.io/test-dapp/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7.
 
 ## Development server
