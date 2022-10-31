@@ -52,15 +52,7 @@ export class AppComponent implements OnInit {
 
     console.log('NETWORK:', network);
 
-    var msg = {
-      verify: true,
-      message: 'Hello World',
-    };
-
-    const signing1 = await this.provider!.request({
-      method: 'signMessage',
-      params: [{ message: JSON.stringify(msg) }],
-    });
+    const signing1 = await this.provider!.request({ method: "signMessage", params: [{ message: 'Hello World!' }] });
 
     console.log('Signing1:', signing1);
   }
