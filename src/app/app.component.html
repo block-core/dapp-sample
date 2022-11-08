@@ -45,7 +45,10 @@
 
     <p>
       <button mat-flat-button (click)="signMessageAnyAccount()">
-        signMessage any account
+        signMessage any account (text)
+      </button>
+      <button mat-flat-button (click)="signMessageAnyAccountJson()">
+        signMessage any account (JSON)
       </button>
       <button mat-flat-button disabled="disabled" (click)="signMessage()">
         signMessage (current network)

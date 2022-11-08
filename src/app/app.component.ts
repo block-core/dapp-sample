@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebProvider } from '@blockcore/provider';
+import * as bitcoinMessage from 'bitcoinjs-message';
 
 @Component({
   selector: 'app-root',
@@ -37,12 +38,37 @@ export class AppComponent implements OnInit {
   }
 
   async signMessageAnyAccount() {
-    const signing1 = await this.provider!.request({
+    const message = 'Hello World';
+
+    const result: any = await this.provider!.request({
       method: 'signMessage',
-      params: [{ message: 'Hello World!' }],
+      params: [{ message: message }],
     });
 
-    console.log('Signing1:', signing1);
+    console.log('Signing result:', result);
+    console.log('Message:', message);
+    console.log('Key:', result.key);
+    console.log('Signature:', result.signature);
+
+    var valid = bitcoinMessage.verify(message, result.key, result.signature);
+
+    console.log('Signature is valid?', valid);
+  }
+
+  async signMessageAnyAccountJson() {
+    const message = { id: 5, text: 'Hello World' };
+
+    const result: any = await this.provider!.request({
+      method: 'signMessage',
+      params: [{ message: message }],
+    });
+
+    console.log('Signing result:', result);
+
+    const preparedMessage = JSON.stringify(message);
+    var valid = bitcoinMessage.verify(preparedMessage, result.key, result.signature);
+
+    console.log('Signature is valid?', valid);
   }
 
   async signMessage(network?: string) {
@@ -52,7 +78,10 @@ export class AppComponent implements OnInit {
 
     console.log('NETWORK:', network);
 
-    const signing1 = await this.provider!.request({ method: "signMessage", params: [{ message: 'Hello World!' }] });
+    const signing1 = await this.provider!.request({
+      method: 'signMessage',
+      params: [{ message: 'Hello World!' }],
+    });
 
     console.log('Signing1:', signing1);
   }
