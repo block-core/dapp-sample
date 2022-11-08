@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   paymentRequestAmount = 2;
 
   networks = [
+    { name: 'Any (user selected)', id: '' },
     { name: 'Bitcoin', id: 'BTC' },
     { name: 'City Chain', id: 'CITY' },
     { name: 'Stratis', id: 'STRAX' },
@@ -54,22 +55,19 @@ export class AppComponent implements OnInit {
     // Creating the WebProvider will perform multiple network requests to
     // get all known blockchain APIs.
     this.provider = await WebProvider.Create();
-  }
-
-  setNetwork(network: string) {
-    this.provider?.setNetwork(network);
-    console.log(this.provider);
+    this.provider.setNetwork(this.network);
   }
 
   async signMessageAnyAccount(value: string) {
     const result: any = await this.provider!.request({
       method: 'signMessage',
-      params: [{ message: value }],
+      params: [{ message: value, network: this.provider?.indexer.network }],
     });
     console.log('Signing result:', result);
 
     this.signedTextKey = result.key;
     this.signedTextSignature = result.signature;
+    this.signedTextNetwork = result.network;
     this.signedTextValidSignature = bitcoinMessage.verify(value, result.key, result.signature);
   }
 
@@ -78,30 +76,16 @@ export class AppComponent implements OnInit {
 
     const result: any = await this.provider!.request({
       method: 'signMessage',
-      params: [{ message: message }],
+      params: [{ message: message, network: this.provider?.indexer.network }],
     });
 
     console.log('Signing result:', result);
 
     this.signedJsonKey = result.key;
     this.signedJsonSignature = result.signature;
+    this.signedJsonNetwork = result.network;
     const preparedMessage = JSON.stringify(message);
     this.signedJsonValidSignature = bitcoinMessage.verify(preparedMessage, result.key, result.signature);
-  }
-
-  async signMessage(network?: string) {
-    if (!network) {
-      network = this.provider?.indexer.network;
-    }
-
-    console.log('NETWORK:', network);
-
-    const signing1 = await this.provider!.request({
-      method: 'signMessage',
-      params: [{ message: 'Hello World!' }],
-    });
-
-    console.log('Signing1:', signing1);
   }
 
   connect() {
@@ -157,6 +141,11 @@ export class AppComponent implements OnInit {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  onNetworkChanged() {
+    console.log(this.network);
+    this.provider?.setNetwork(this.network);
   }
 
   async paymentRequestStrax() {
