@@ -26,6 +26,15 @@ export class AppComponent implements OnInit {
 
   paymentRequestAmount = 2;
 
+  networks = [
+    { name: 'Bitcoin', id: 'BTC' },
+    { name: 'City Chain', id: 'CITY' },
+    { name: 'Stratis', id: 'STRAX' },
+    { name: 'x42', id: 'X42' },
+  ];
+
+  network = 'BTC';
+
   constructor() {}
 
   ngOnInit(): void {
@@ -104,13 +113,13 @@ export class AppComponent implements OnInit {
 
   getAccounts() {}
 
-  async paymentRequest(amount: number) {
+  async paymentRequest(network: string, amount: number) {
     try {
       var result = await this.provider!.request({
         method: 'payment',
         params: [
           {
-            network: 'city',
+            network: network.toLowerCase(),
             amount: amount,
             address: 'Ccoquhaae7u6ASqQ5BiYueASz8EavUXrKn',
             label: 'Your Local Info',
