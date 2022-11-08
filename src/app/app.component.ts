@@ -11,6 +11,21 @@ export class AppComponent implements OnInit {
   title = 'dapp-sample';
   provider?: WebProvider;
 
+  signingText: string = 'Hello World';
+  signingJson: string = '{ "id": 5, "text": "Hello World" }';
+
+  signedTextSignature?: string;
+  signedTextKey?: string;
+  signedTextNetwork?: string;
+  signedTextValidSignature?: boolean;
+
+  signedJsonSignature?: string;
+  signedJsonKey?: string;
+  signedJsonNetwork?: string;
+  signedJsonValidSignature?: boolean;
+
+  paymentRequestAmount = 2;
+
   constructor() {}
 
   ngOnInit(): void {
@@ -37,26 +52,20 @@ export class AppComponent implements OnInit {
     console.log(this.provider);
   }
 
-  async signMessageAnyAccount() {
-    const message = 'Hello World';
-
+  async signMessageAnyAccount(value: string) {
     const result: any = await this.provider!.request({
       method: 'signMessage',
-      params: [{ message: message }],
+      params: [{ message: value }],
     });
-
     console.log('Signing result:', result);
-    console.log('Message:', message);
-    console.log('Key:', result.key);
-    console.log('Signature:', result.signature);
 
-    var valid = bitcoinMessage.verify(message, result.key, result.signature);
-
-    console.log('Signature is valid?', valid);
+    this.signedTextKey = result.key;
+    this.signedTextSignature = result.signature;
+    this.signedTextValidSignature = bitcoinMessage.verify(value, result.key, result.signature);
   }
 
-  async signMessageAnyAccountJson() {
-    const message = { id: 5, text: 'Hello World' };
+  async signMessageAnyAccountJson(value: string) {
+    const message = JSON.parse(value);
 
     const result: any = await this.provider!.request({
       method: 'signMessage',
@@ -65,10 +74,10 @@ export class AppComponent implements OnInit {
 
     console.log('Signing result:', result);
 
+    this.signedJsonKey = result.key;
+    this.signedJsonSignature = result.signature;
     const preparedMessage = JSON.stringify(message);
-    var valid = bitcoinMessage.verify(preparedMessage, result.key, result.signature);
-
-    console.log('Signature is valid?', valid);
+    this.signedJsonValidSignature = bitcoinMessage.verify(preparedMessage, result.key, result.signature);
   }
 
   async signMessage(network?: string) {
@@ -94,6 +103,29 @@ export class AppComponent implements OnInit {
   }
 
   getAccounts() {}
+
+  async paymentRequest(amount: number) {
+    try {
+      var result = await this.provider!.request({
+        method: 'payment',
+        params: [
+          {
+            network: 'city',
+            amount: amount,
+            address: 'Ccoquhaae7u6ASqQ5BiYueASz8EavUXrKn',
+            label: 'Your Local Info',
+            message: 'Invoice Number 5',
+            data: 'MzExMzUzNDIzNDY',
+            id: '4324',
+          },
+        ],
+      });
+
+      console.log('Result:', result);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   async paymentRequestCity() {
     try {

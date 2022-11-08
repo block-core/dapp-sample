@@ -32,33 +32,15 @@
     <br />
 
     <p>
-      <button mat-flat-button (click)="setNetwork('CITY')">
-        set network (CITY)
-      </button>
-      <button mat-flat-button (click)="setNetwork('STRAX')">
-        set network (STRAX)
-      </button>
-      <button mat-flat-button (click)="setNetwork('X42')">
-        set network (X42)
-      </button>
+      <button mat-flat-button (click)="setNetwork('CITY')">set network (CITY)</button>
+      <button mat-flat-button (click)="setNetwork('STRAX')">set network (STRAX)</button>
+      <button mat-flat-button (click)="setNetwork('X42')">set network (X42)</button>
     </p>
 
     <p>
-      <button mat-flat-button (click)="signMessageAnyAccount()">
-        signMessage any account (text)
-      </button>
-      <button mat-flat-button (click)="signMessageAnyAccountJson()">
-        signMessage any account (JSON)
-      </button>
-      <button mat-flat-button disabled="disabled" (click)="signMessage()">
-        signMessage (current network)
-      </button>
-      <button mat-flat-button disabled="disabled" (click)="signMessage('X42')">
-        signMessage (X42)
-      </button>
-      <button mat-flat-button disabled="disabled" (click)="signMessage('CITY')">
-        signMessage (CITY)
-      </button>
+      <button mat-flat-button disabled="disabled" (click)="signMessage()">signMessage (current network)</button>
+      <button mat-flat-button disabled="disabled" (click)="signMessage('X42')">signMessage (X42)</button>
+      <button mat-flat-button disabled="disabled" (click)="signMessage('CITY')">signMessage (CITY)</button>
     </p>
 
     <p>
@@ -66,10 +48,62 @@
       <button mat-flat-button (click)="getAccounts()" disabled="disabled">get_accounts</button>
     </p>
 
-    <p>
-      <button mat-flat-button (click)="paymentRequestCity()">payment request (CITY)</button>
-      <button mat-flat-button (click)="paymentRequestStrax()">payment request (STRAX)</button>
-    </p>
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>Signing (text)</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field class="input-full-width" appearance="outline">
+          <mat-label>Basic text</mat-label>
+          <input matInput type="text" [(ngModel)]="signingText" />
+        </mat-form-field>
+        <div>
+          <p>Signature:<br />{{ signedTextSignature }}</p>
+          <p>Key/Address:<br />{{ signedTextKey }}</p>
+          <p>Network:<br />{{ signedTextNetwork }}<br /></p>
+          <p>Is Signature Valid:<br />{{ signedTextValidSignature }}<br /></p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="signMessageAnyAccount(signingText)">Request Signing</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>Signing (JSON)</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field class="input-full-width" appearance="outline">
+          <mat-label>JSON structure</mat-label>
+          <textarea matInput rows="6" [(ngModel)]="signingJson"></textarea>
+        </mat-form-field>
+        <div>
+          <p>Signature:<br />{{ signedJsonSignature }}</p>
+          <p>Key/Address:<br />{{ signedJsonKey }}</p>
+          <p>Network:<br />{{ signedJsonNetwork }}<br /></p>
+          <p>Is Signature Valid:<br />{{ signedJsonValidSignature }}<br /></p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="signMessageAnyAccountJson(signingJson)">Request Signing</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>Payment Request</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field class="input-full-width" appearance="outline">
+          <mat-label>Amount</mat-label>
+          <input matInput type="text" [(ngModel)]="paymentRequestAmount" />
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="paymentRequest(paymentRequestAmount)">Payment Request</button>
+      </mat-card-actions>
+    </mat-card>
 
     <router-outlet></router-outlet>
   </div>

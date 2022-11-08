@@ -3,13 +3,21 @@
 }
 
 .logo {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    max-width: 256px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 256px;
 }
 
 .actions button {
-    margin-right: 0.6em;
-    margin-bottom: 0.6em;
+  margin-right: 0.6em;
+  margin-bottom: 0.6em;
+}
+
+.input-full-width {
+  width: 100%;
+}
+
+.card {
+  margin-bottom: 1em;
 }
