@@ -158,7 +158,8 @@ export class AppComponent implements OnInit {
   }
 
   didSupportedMethodsResults?: string[];
-  didRequestResults?: string[];
+  // didRequestResults?: string[];
+  didRequestResponse: any;
 
   async didSupportedMethods() {
     const result = await this.request('did.supportedMethods');
@@ -172,7 +173,7 @@ export class AppComponent implements OnInit {
       reason: 'Sample app need access to any of your DIDs.',
     }]);
 
-    this.didRequestResults = result.response;
+    this.didRequestResponse = result.response;
   }
 
   onNetworkChanged() {

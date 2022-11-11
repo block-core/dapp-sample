@@ -120,8 +120,9 @@
         <mat-card-title>DID Request</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p *ngIf="didSupportedMethodsResults">
-          {{didSupportedMethodsResults}}
+        <p *ngIf="didRequestResponse">
+          DID: {{didRequestResponse.did}}<br>
+          Proof: {{didRequestResponse.proof}}<br>
         </p>
       </mat-card-content>
       <mat-card-actions>
