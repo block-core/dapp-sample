@@ -143,6 +143,24 @@ export class AppComponent implements OnInit {
     }
   }
 
+  async request(method: string) {
+    const result: any = await this.provider!.request({
+      method: method,
+      params: [],
+    });
+    console.log('Result:', result);
+
+    return result;
+  }
+
+  didSupportedMethodsResults?: string[];
+
+  async didSupportedMethods()
+  {
+    const result = await this.request('did.supportedMethods');
+    this.didSupportedMethodsResults = result.response;
+  }
+
   onNetworkChanged() {
     console.log(this.network);
     this.provider?.setNetwork(this.network);
