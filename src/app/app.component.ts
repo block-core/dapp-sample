@@ -143,10 +143,14 @@ export class AppComponent implements OnInit {
     }
   }
 
-  async request(method: string) {
+  async request(method: string, params?: object | unknown[]) {
+    if (!params) {
+      params = [];
+    }
+
     const result: any = await this.provider!.request({
       method: method,
-      params: [],
+      params: params,
     });
     console.log('Result:', result);
 
@@ -154,11 +158,21 @@ export class AppComponent implements OnInit {
   }
 
   didSupportedMethodsResults?: string[];
+  didRequestResults?: string[];
 
-  async didSupportedMethods()
-  {
+  async didSupportedMethods() {
     const result = await this.request('did.supportedMethods');
     this.didSupportedMethodsResults = result.response;
+  }
+
+  async didRequest() {
+    const result = await this.request('did.request', [{
+      challenge: 'fc0949c4-fd9c-4825-b18d-79348e358156',
+      methods: ['did:is', 'did:jwk'],
+      reason: 'Sample app need access to any of your DIDs.',
+    }]);
+
+    this.didRequestResults = result.response;
   }
 
   onNetworkChanged() {
