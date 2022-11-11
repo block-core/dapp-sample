@@ -157,19 +157,18 @@ export class AppComponent implements OnInit {
     return result;
   }
 
-  didSupportedMethodsResults?: string[];
-  // didRequestResults?: string[];
+  didSupportedMethodsResponse?: string[];
   didRequestResponse: any;
 
   async didSupportedMethods() {
     const result = await this.request('did.supportedMethods');
-    this.didSupportedMethodsResults = result.response;
+    this.didSupportedMethodsResponse = result.response;
   }
 
-  async didRequest() {
+  async didRequest(methods: string[]) {
     const result = await this.request('did.request', [{
       challenge: 'fc0949c4-fd9c-4825-b18d-79348e358156',
-      methods: ['did:is', 'did:jwk'],
+      methods: methods,
       reason: 'Sample app need access to any of your DIDs.',
     }]);
 
