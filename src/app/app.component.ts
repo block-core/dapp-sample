@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
       method: 'signMessage',
       params: [{ message: value, network: this.provider?.indexer.network }],
     });
-    console.log('Signing result:', result);
+    console.log('Result:', result);
 
     this.signedTextKey = result.key;
     this.signedTextSignature = result.signature;
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit {
       params: [{ message: message, network: this.provider?.indexer.network }],
     });
 
-    console.log('Signing result:', result);
+    console.log('Result:', result);
 
     this.signedJsonKey = result.key;
     this.signedJsonSignature = result.signature;
