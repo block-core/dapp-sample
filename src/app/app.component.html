@@ -42,14 +42,14 @@
       <mat-card-title>DID Resolve (lookup)</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      This sample does not interact with the wallet, but performs an standard DID Resolve using the <a href="https://www.npmjs.com/package/@blockcore/did-resolver" target="_blank">@blockcore/did-resolver</a> library.
+      This sample does not interact with the wallet, it performs a standard DID Resolve using the <a href="https://www.npmjs.com/package/@blockcore/did-resolver" target="_blank">@blockcore/did-resolver</a> library.
 
       <mat-form-field class="input-full-width" appearance="outline">
         <mat-label>DID ID</mat-label>
         <input matInput type="text" [(ngModel)]="didLookup" />
       </mat-form-field>
 
-      <p class="long" *ngIf="didLookupResponse">DID Document: {{ didLookupResponse | json }}</p>
+      <p class="long" *ngIf="didLookupResponse">DID Resolution: {{ didLookupResponse | json }}</p>
     </mat-card-content>
     <mat-card-actions>
       <button mat-flat-button color="primary" (click)="resolveDid()">DID Resolve</button>
