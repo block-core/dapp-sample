@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { WebProvider } from '@blockcore/provider';
 import * as bitcoinMessage from 'bitcoinjs-message';
 const { v4: uuidv4 } = require('uuid');
+import { DIDResolutionOptions, Resolver } from 'did-resolver';
+import is from '@blockcore/did-resolver';
 
 @Component({
   selector: 'app-root',
@@ -187,6 +189,14 @@ export class AppComponent implements OnInit {
   }
 
   vcRequestResponse: any;
+  didLookup = 'did:is:0f254e55a2633d468e92aa7dd5a76c0c9101fab8e282c8c20b3fefde0d68f217';
+  didLookupResponse: any | undefined;
+
+  async resolveDid() {
+    const isResolver = is.getResolver();
+    const resolver = new Resolver(isResolver);
+    this.didLookupResponse = await resolver.resolve(this.didLookup, {});
+  }
 
   async vcRequest() {
     const result = await this.request('vc.request', [

@@ -37,6 +37,25 @@
     </p>
   </div>
 
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>DID Resolve (lookup)</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      This sample does not interact with the wallet, but performs an standard DID Resolve using the <a href="https://www.npmjs.com/package/@blockcore/did-resolver" target="_blank">@blockcore/did-resolver</a> library.
+
+      <mat-form-field class="input-full-width" appearance="outline">
+        <mat-label>DID ID</mat-label>
+        <input matInput type="text" [(ngModel)]="didLookup" />
+      </mat-form-field>
+
+      <p class="long" *ngIf="didLookupResponse">DID Document: {{ didLookupResponse | json }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" (click)="resolveDid()">DID Resolve</button>
+    </mat-card-actions>
+  </mat-card>
+
   <div class="actions" *ngIf="provider">
     <br />
 
@@ -107,9 +126,7 @@
         <mat-card-title>DID Supported Methods</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p *ngIf="didSupportedMethodsResponse">
-          DID Methods: {{didSupportedMethodsResponse}}
-        </p>
+        <p *ngIf="didSupportedMethodsResponse">DID Methods: {{ didSupportedMethodsResponse }}</p>
       </mat-card-content>
       <mat-card-actions>
         <button mat-flat-button color="primary" (click)="didSupportedMethods()">Supported DID Methods</button>
@@ -122,8 +139,9 @@
       </mat-card-header>
       <mat-card-content>
         <p *ngIf="didRequestResponse">
-          DID: {{didRequestResponse.did}}<br>
-          Proof: {{didRequestResponse.proof}}<br>
+          DID: {{ didRequestResponse.did }}<br />
+          <span class="long">Proof: {{ didRequestResponse.proof }}</span
+          ><br />
         </p>
       </mat-card-content>
       <mat-card-actions>
@@ -157,16 +175,19 @@
         </mat-form-field>
 
         <p *ngIf="vcRequestResponse">
-          DID: {{vcRequestResponse.did}}<br><br>
-          VC: <span class="long">{{vcRequestResponse.vc}}</span><br>
+          DID: {{ vcRequestResponse.did }}<br /><br />
+          VC: <span class="long">{{ vcRequestResponse.vc }}</span
+          ><br />
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="vcRequest()">Send VC Request</button> 
+        <button mat-flat-button color="primary" (click)="vcRequest()">Send VC Request</button>
       </mat-card-actions>
     </mat-card>
 
+
+
     <router-outlet></router-outlet>
   </div>
-  <br>
+  <br />
 </div>
