@@ -2,6 +2,12 @@
 
 Decentralized application (DApp) that demonstrates interaction from third party apps and Blockcore ecosystem
 
+## Resources
+
+[Verifiable Credentials Data Model v2.0](https://w3c.github.io/vc-data-model/)
+
+[Verifiable Credentials Implementation Guidelines 1.0](https://w3c.github.io/vc-imp-guide/)
+
 ## Inspiration
 
 This app will have similar features as the E2E Test Dapp for MetaMask: [https://metamask.github.io/test-dapp/](https://metamask.github.io/test-dapp/)
