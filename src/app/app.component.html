@@ -131,6 +131,41 @@
       </mat-card-actions>
     </mat-card>
 
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>VC Request</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- <mat-form-field class="input-full-width" appearance="outline">
+          <mat-label>DID (target)</mat-label>
+          <input matInput type="text" [(ngModel)]="vcSubject" />
+        </mat-form-field> -->
+
+        <mat-form-field class="input-full-width" appearance="outline">
+          <mat-label>Type (e.g. "VerifiableBusinessCard")</mat-label>
+          <input matInput type="text" [(ngModel)]="vcType" />
+        </mat-form-field>
+
+        <mat-form-field class="input-full-width" appearance="outline">
+          <mat-label>ID (unique identifier of this specific credential)</mat-label>
+          <input matInput type="text" [(ngModel)]="vcID" />
+        </mat-form-field>
+
+        <mat-form-field class="input-full-width" appearance="outline">
+          <mat-label>Credential (Your claim about the DID)</mat-label>
+          <textarea matInput rows="6" [(ngModel)]="vcClaim"></textarea>
+        </mat-form-field>
+
+        <!-- <p *ngIf="didRequestResponse">
+          DID: {{didRequestResponse.did}}<br>
+          Proof: {{didRequestResponse.proof}}<br>
+        </p> -->
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="vcRequest()">Send VC Request</button> 
+      </mat-card-actions>
+    </mat-card>
+
     <router-outlet></router-outlet>
   </div>
   <br>

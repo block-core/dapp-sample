@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WebProvider } from '@blockcore/provider';
 import * as bitcoinMessage from 'bitcoinjs-message';
+const { v4: uuidv4 } = require('uuid');
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,11 @@ export class AppComponent implements OnInit {
   signedJsonValidSignature?: boolean;
 
   paymentRequestAmount = 2;
+
+  // vcSubject = 'did:is:';
+  vcType = 'EmailVerification';
+  vcID = uuidv4();
+  vcClaim = '{ "id": "did:is:0f254e55a2633d468e92aa7dd5a76c0c9101fab8e282c8c20b3fefde0d68f217", "sameAs": "mail@mail.com" }';
 
   networks = [
     { name: 'Any (user selected)', id: '' },
@@ -56,6 +62,8 @@ export class AppComponent implements OnInit {
     // get all known blockchain APIs.
     this.provider = await WebProvider.Create();
     this.provider.setNetwork(this.network);
+
+    this.vcID = uuidv4();
   }
 
   async signMessageAnyAccount(value: string) {
@@ -166,13 +174,31 @@ export class AppComponent implements OnInit {
   }
 
   async didRequest(methods: string[]) {
-    const result = await this.request('did.request', [{
-      challenge: 'fc0949c4-fd9c-4825-b18d-79348e358156',
-      methods: methods,
-      reason: 'Sample app need access to any of your DIDs.',
-    }]);
+    const result = await this.request('did.request', [
+      {
+        challenge: 'fc0949c4-fd9c-4825-b18d-79348e358156',
+        methods: methods,
+        reason: 'Sample app need access to any of your DIDs.',
+      },
+    ]);
 
     this.didRequestResponse = result.response;
+  }
+
+  vcRequestResponse: any;
+
+  async vcRequest() {
+    const result = await this.request('vc.request', [
+      {
+        challenge: 'fc0949c4-fd9c-4825-b18d-79348e358156',
+        type: this.vcType,
+        id: this.vcID,
+        claim: this.vcClaim,
+        reason: 'Sample app want you to sign a verifiable credential with any of your DIDs.',
+      },
+    ]);
+
+    this.vcRequestResponse = result.response;
   }
 
   onNetworkChanged() {
