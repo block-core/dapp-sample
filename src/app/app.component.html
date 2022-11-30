@@ -156,10 +156,10 @@
           <textarea matInput rows="6" [(ngModel)]="vcClaim"></textarea>
         </mat-form-field>
 
-        <!-- <p *ngIf="didRequestResponse">
-          DID: {{didRequestResponse.did}}<br>
-          Proof: {{didRequestResponse.proof}}<br>
-        </p> -->
+        <p *ngIf="vcRequestResponse">
+          DID: {{vcRequestResponse.did}}<br><br>
+          Proof: <span class="long">{{vcRequestResponse.vc}}</span><br>
+        </p>
       </mat-card-content>
       <mat-card-actions>
         <button mat-flat-button color="primary" (click)="vcRequest()">Send VC Request</button> 

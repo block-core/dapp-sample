@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
   vcType = 'EmailVerification';
   vcID = uuidv4();
   vcClaim = '{ "id": "did:is:0f254e55a2633d468e92aa7dd5a76c0c9101fab8e282c8c20b3fefde0d68f217", "sameAs": "mail@mail.com" }';
+  vc: string | undefined | null = null;
 
   networks = [
     { name: 'Any (user selected)', id: '' },
