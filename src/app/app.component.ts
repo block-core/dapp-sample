@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
   signedJsonValidSignature?: boolean;
 
   paymentRequestAmount = 2;
+  paymentVerificationRequestAmount = 5;
+  paymentVerificationTransactionId: string | undefined = undefined;
 
   // vcSubject = 'did:is:';
   vcType = 'EmailVerification';
@@ -107,6 +109,33 @@ export class AppComponent implements OnInit {
   }
 
   getAccounts() {}
+
+  async paymentVerificationRequest(network: string, amount: number) {
+    const paymentId = uuidv4();
+
+    try {
+      var result: any = await this.provider!.request({
+        method: 'payment',
+        params: [
+          {
+            network: network.toLowerCase(),
+            amount: amount,
+            address: 'CRp1q2hdFN5e1hVEEkFY3egyD2cT9ed6S3',
+            label: 'City Chain Registry',
+            message: 'Please make the initial payment for crypto company registration',
+            id: paymentId,
+          },
+        ],
+      });
+
+      console.log('PAYMENT VERIFICATION REQUEST CLOSED...');
+      console.log('Result:', result);
+
+      this.paymentVerificationTransactionId = result.transactionId;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   async paymentRequest(network: string, amount: number) {
     try {

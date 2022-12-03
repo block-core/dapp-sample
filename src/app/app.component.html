@@ -123,6 +123,27 @@
 
     <mat-card class="card">
       <mat-card-header>
+        <mat-card-title>Payment with verification (City Coin)</mat-card-title>
+        <mat-card-subtitle
+          >This example will request a payment, when payment is performed, the transaction ID is returned. The dapp will then query the blockchain API to find input to payment and verify amounts and target address. It will then request a
+          verification where the payeer will make a proof of ownership of the payment keys.</mat-card-subtitle
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field class="input-full-width" appearance="outline">
+          <mat-label>Amount</mat-label>
+          <input matInput type="text" [(ngModel)]="paymentVerificationRequestAmount" />
+        </mat-form-field>
+
+        <p *ngIf="paymentVerificationTransactionId">Transaction ID: {{ paymentVerificationTransactionId }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="paymentVerificationRequest('CITY', paymentVerificationRequestAmount)">Payment Request</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header>
         <mat-card-title>DID Supported Methods</mat-card-title>
       </mat-card-header>
       <mat-card-content>
@@ -184,8 +205,6 @@
         <button mat-flat-button color="primary" (click)="vcRequest()">Send VC Request</button>
       </mat-card-actions>
     </mat-card>
-
-
 
     <router-outlet></router-outlet>
   </div>
