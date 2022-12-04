@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   paymentRequestAmount = 2;
   paymentVerificationRequestAmount = 5;
   paymentVerificationTransactionId: string | undefined = undefined;
+  paymentTransactionId: string | undefined = undefined;
 
   // vcSubject = 'did:is:';
   vcType = 'EmailVerification';
@@ -139,7 +140,7 @@ export class AppComponent implements OnInit {
 
   async paymentRequest(network: string, amount: number) {
     try {
-      var result = await this.provider!.request({
+      var result: any = await this.provider!.request({
         method: 'payment',
         params: [
           {
@@ -155,6 +156,7 @@ export class AppComponent implements OnInit {
       });
 
       console.log('Result:', result);
+      this.paymentTransactionId = result.transactionId;
     } catch (err) {
       console.error(err);
     }

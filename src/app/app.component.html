@@ -115,6 +115,9 @@
           <mat-label>Amount</mat-label>
           <input matInput type="text" [(ngModel)]="paymentRequestAmount" />
         </mat-form-field>
+
+        <p *ngIf="paymentTransactionId">Transaction ID: {{ paymentTransactionId }}</p>
+
       </mat-card-content>
       <mat-card-actions>
         <button mat-flat-button color="primary" (click)="paymentRequest(network, paymentRequestAmount)">Payment Request</button>
