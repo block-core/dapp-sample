@@ -40,3 +40,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/src/blazor/dapp-wasm/.vs/dapp-wasm
+/src/blazor/dapp-wasm/dapp-wasm/obj
