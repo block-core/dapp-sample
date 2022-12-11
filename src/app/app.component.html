@@ -3,9 +3,17 @@
     <!-- <button mat-icon-button class="example-icon">
       <mat-icon>menu</mat-icon>
     </button> -->
-    <span>Blockcore DApp Sample</span>
+    <!-- <span>Blockcore DApp Sample</span>
     <span class="example-spacer"></span>
+    <a mat-flat-button href="https://github.com/block-core/dapp-sample/">Source Code</a> -->
+
+    <span>
+      <img src="/assets/icon-48x48.png" class="blockcore-logo">
+      Blockcore DApp Sample
+    </span>
+    <span class="fill-remaining-space"></span>
     <a mat-flat-button href="https://github.com/block-core/dapp-sample/">Source Code</a>
+
 
     <!-- <button mat-flat-button (click)="connect()">connect</button>&nbsp;
     <button mat-flat-button (click)="getAccounts()">get_accounts</button> -->
@@ -13,12 +21,8 @@
 </p>
 
 <div class="page">
-  <mat-card>
-    <div class="logo">
-      <img src="/assets/icon-256x256.png" />
-    </div>
-
-    <div *ngIf="provider">CURRENT NETWORK: {{ provider.indexer.network }}</div>
+  <mat-card *ngIf="provider">
+    CURRENT NETWORK: {{ provider.indexer.network }} 
   </mat-card>
 
   <div class="actions">
