@@ -1,4 +1,8 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+@using Blockcore.MetaMask
+<Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="new[] 
+{
+  typeof(Metamask).Assembly,
+}">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

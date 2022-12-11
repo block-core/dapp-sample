@@ -12,4 +12,8 @@
     <PackageReference Include="Blockcore.Core" Version="1.1.37" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Blockcore.MetaMask\Blockcore.MetaMask.csproj" />
+  </ItemGroup>
+
 </Project>
