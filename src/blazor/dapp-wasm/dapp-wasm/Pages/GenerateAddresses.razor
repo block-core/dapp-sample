@@ -1,0 +1,38 @@
+@page "/generateaddresses"
+
+<PageTitle>Blockcore Atomic Swaps</PageTitle>
+
+<h1>Blockcore Atomic Swaps</h1>
+
+Welcome to your new app. <br/><br/>
+
+@*<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+<p role="status"> @address</p>
+<p role="status"> @address1</p>
+<p role="status"> @address2</p>
+<p role="status"> @address3</p>
+
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click to generate addresses</button>
+
+@code {
+    private string address = "";
+    private string address1 = "";
+    private string address2 = "";
+    private string address3 = "";
+    private void IncrementCount()
+    {
+        var netwrok = Blockcore.Networks.Networks.Strax.Mainnet();
+        var netwrok1 = Blockcore.Networks.Networks.Bitcoin.Mainnet();
+        var netwrok2 = Blockcore.Networks.Networks.City.Mainnet();
+
+        var key = new NBitcoin.Key();
+        address = netwrok.Name + " : " + key.PubKey.GetSegwitAddress(netwrok).ToString() + " - " + key.PubKey.GetAddress(netwrok).ToString();
+        address1 = netwrok1.Name + " : " + key.PubKey.GetSegwitAddress(netwrok1).ToString() + " - " + key.PubKey.GetAddress(netwrok1).ToString();
+        address2 = netwrok2.Name + " : " + key.PubKey.GetSegwitAddress(netwrok2).ToString() + " - " + key.PubKey.GetAddress(netwrok2).ToString();
+
+
+
+    }
+}

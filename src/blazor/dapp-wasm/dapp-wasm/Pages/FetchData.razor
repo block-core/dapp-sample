@@ -1,57 +1,77 @@
-﻿@page "/fetchdata"
+@page "/fetchdata"
+@using Blockcore.Consensus.BlockInfo
+@using Blockcore.Networks
+@using Data
 @inject HttpClient Http
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Fetch block</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Fetch block</h1>
+
+
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (forecasts == null)
+<p>Link to an indexer.</p>
+
+<input class="form-control" @bind="link" @bind:event="oninput" />
+
+<p>block height.</p>
+<div class="row align-items-center mb-3 mt-2">
+  <div class="col-3">
+    <input class="form-control" @bind="blockheight" @bind:event="oninput" />
+  </div>
+</div>
+
+
+<button class="btn btn-primary mt-3 mb-3" disabled="@busy" @onclick="Fetch">Fetch block</button>
+
+
+@if (block != null)
 {
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+  <p>block hash: @blockData.blockHash</p>
+  <p>block HashMerkleRoot: @block.Header.HashMerkleRoot.ToString()</p>
+  <p>block Bits: @block.Header.Bits.ToString()</p>
+  <p>block Version: @block.Header.Version.ToString()</p>
+
+  foreach (var trx in block.Transactions)
+  {
+    <p>trx hash: @trx.GetHash().ToString()</p>
+  }
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+  private bool busy = false;
+  private BlockData? blockData;
+  public string link { get; set; } = string.Empty;
+  public int blockheight;
+  public Block block;
+  Network network;
 
-    protected override async Task OnInitializedAsync()
+  private async Task Fetch()
+  {
+    if (busy) return;
+    busy = true;
+    try
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-    }
+      blockData = await Http.GetFromJsonAsync<BlockData>(link + "api/query/block/index/" + blockheight);
 
-    public class WeatherForecast
+      var blockhex = await Http.GetStringAsync(link + "api/query/block/" + blockData.blockHash + "/hex");
+
+      block = Block.Parse(blockhex, network.Consensus.ConsensusFactory);
+    }
+    finally
     {
-        public DateOnly Date { get; set; }
-
-        public int TemperatureC { get; set; }
-
-        public string? Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+      busy = false;
     }
+  }
+
+  protected override async Task OnInitializedAsync()
+  {
+    network = Blockcore.Networks.Networks.Bitcoin.Mainnet();
+
+    link = "https://btc.indexer.coinvault.io/";
+
+  }
 }
