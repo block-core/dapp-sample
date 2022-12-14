@@ -102,10 +102,23 @@ export class AppComponent implements OnInit {
     this.signedJsonValidSignature = bitcoinMessage.verify(preparedMessage, result.key, result.signature);
   }
 
-  connect() {
-    if (this.isBlockcoreInstalled()) {
-      alert('ues!');
-    } else {
+  async connect() {
+    const challenge = uuidv4();
+
+    try {
+      var result: any = await this.provider!.request({
+        method: 'wallets',
+        params: [
+          {
+            challenge: challenge,
+            // reason: 'Sample app want you to sign a verifiable credential with any of your DIDs.',
+          },
+        ],
+      });
+
+      console.log('Result:', result);
+    } catch (err) {
+      console.error(err);
     }
   }
 
