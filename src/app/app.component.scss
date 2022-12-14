@@ -25,3 +25,13 @@
 .long {
   word-wrap: break-word;
 }
+
+ .blockcore-logo {
+        margin: 0 4px 3px 0;
+        height: 48px;
+        vertical-align: middle;
+    }
+    .fill-remaining-space {
+      flex: 1 1 auto;
+    }
+

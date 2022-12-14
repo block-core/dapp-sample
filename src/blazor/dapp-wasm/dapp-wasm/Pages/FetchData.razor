@@ -1,0 +1,77 @@
+@page "/fetchdata"
+@using Blockcore.Consensus.BlockInfo
+@using Blockcore.Networks
+@using Data
+@inject HttpClient Http
+
+<PageTitle>Fetch block</PageTitle>
+
+<h1>Fetch block</h1>
+
+
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<p>Link to an indexer.</p>
+
+<input class="form-control" @bind="link" @bind:event="oninput" />
+
+<p>block height.</p>
+<div class="row align-items-center mb-3 mt-2">
+  <div class="col-3">
+    <input class="form-control" @bind="blockheight" @bind:event="oninput" />
+  </div>
+</div>
+
+
+<button class="btn btn-primary mt-3 mb-3" disabled="@busy" @onclick="Fetch">Fetch block</button>
+
+
+@if (block != null)
+{
+
+  <p>block hash: @blockData.blockHash</p>
+  <p>block HashMerkleRoot: @block.Header.HashMerkleRoot.ToString()</p>
+  <p>block Bits: @block.Header.Bits.ToString()</p>
+  <p>block Version: @block.Header.Version.ToString()</p>
+
+  foreach (var trx in block.Transactions)
+  {
+    <p>trx hash: @trx.GetHash().ToString()</p>
+  }
+}
+
+@code {
+  private bool busy = false;
+  private BlockData? blockData;
+  public string link { get; set; } = string.Empty;
+  public int blockheight;
+  public Block block;
+  Network network;
+
+  private async Task Fetch()
+  {
+    if (busy) return;
+    busy = true;
+    try
+    {
+      blockData = await Http.GetFromJsonAsync<BlockData>(link + "api/query/block/index/" + blockheight);
+
+      var blockhex = await Http.GetStringAsync(link + "api/query/block/" + blockData.blockHash + "/hex");
+
+      block = Block.Parse(blockhex, network.Consensus.ConsensusFactory);
+    }
+    finally
+    {
+      busy = false;
+    }
+  }
+
+  protected override async Task OnInitializedAsync()
+  {
+    network = Blockcore.Networks.Networks.Bitcoin.Mainnet();
+
+    link = "https://btc.indexer.coinvault.io/";
+
+  }
+}

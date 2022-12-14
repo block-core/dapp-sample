@@ -40,3 +40,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/src/blazor/dapp-wasm/.vs/dapp-wasm
+/src/blazor/dapp-wasm/dapp-wasm/obj
+/src/blazor/dapp-wasm/.vs/ProjectEvaluation
+/src/blazor/dapp-wasm/dapp-wasm/bin/Debug/net7.0
+/src/blazor/dapp-wasm/Blockcore.MetaMask/bin
+/src/blazor/dapp-wasm/Blockcore.MetaMask/obj

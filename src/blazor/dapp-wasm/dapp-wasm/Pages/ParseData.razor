@@ -1,0 +1,64 @@
+@page "/parsedata"
+@using System.Text.Json
+@using Blockcore.Controllers.Models
+@using Blockcore.Networks
+
+<PageTitle>Parse Data</PageTitle>
+
+<h1>Parse Data</h1>
+
+<p >Transaction Hex</p>
+
+<textarea class="form-control" rows="3" @bind="TransactionHex" />
+
+<select class="form-select mt-3 mb-2" @bind="selectedNetwork" type="text">
+    <option value="" selected disabled>Please select</option>
+    @{
+        @foreach (var prp in NetworkList)
+        {
+            <option value="@prp">@prp</option>
+        }
+    }
+</select>
+
+<button class="btn btn-primary mb-3 mt-3" @onclick="ParseTransaction">Parse Transaction</button>
+
+<textarea class="form-control"  @bind="Result" cols="50"  rows="17"></textarea>
+
+<p class="alert-danger">@error</p>
+
+@code {
+    public string TransactionHex { get; set; } = string.Empty;
+    string error;
+
+
+    public string Result { get; set; } = string.Empty;
+
+    List<string> NetworkList;
+    Network network;
+    string selectedNetwork;
+
+    protected override async Task OnInitializedAsync()
+    {
+        NetworkList = Networks.NetworkItems.Keys.ToList();
+    }
+
+   
+
+    private void ParseTransaction()
+    {
+        if (string.IsNullOrEmpty(TransactionHex))
+        {
+            error = "set trx hex";
+            return;
+        }
+
+        network = Networks.NetworkItems[selectedNetwork];
+
+        var trx = network.Consensus.ConsensusFactory.CreateTransaction(TransactionHex);
+
+        var parsed = new TransactionVerboseModel(trx, network);
+        Result = JsonSerializer.Serialize(parsed, new JsonSerializerOptions { WriteIndented = true, });
+    }
+
+}

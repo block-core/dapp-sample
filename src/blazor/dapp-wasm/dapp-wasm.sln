@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dapp-wasm", "dapp-wasm\dapp-wasm.csproj", "{791D7A5E-0A39-49E0-BABA-E11A6581FCFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.MetaMask", "Blockcore.MetaMask\Blockcore.MetaMask.csproj", "{E959D45D-6931-4977-89A7-60BF2FDDE18D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{791D7A5E-0A39-49E0-BABA-E11A6581FCFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{791D7A5E-0A39-49E0-BABA-E11A6581FCFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{791D7A5E-0A39-49E0-BABA-E11A6581FCFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{791D7A5E-0A39-49E0-BABA-E11A6581FCFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E959D45D-6931-4977-89A7-60BF2FDDE18D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E959D45D-6931-4977-89A7-60BF2FDDE18D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E959D45D-6931-4977-89A7-60BF2FDDE18D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E959D45D-6931-4977-89A7-60BF2FDDE18D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A87AE351-CD8C-43F7-A8F8-F88181F0352E}
+	EndGlobalSection
+EndGlobal

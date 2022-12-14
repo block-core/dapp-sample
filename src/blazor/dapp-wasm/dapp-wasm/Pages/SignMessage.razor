@@ -1,0 +1,67 @@
+@page "/signmessage"
+@using Blockcore.Networks
+
+<PageTitle>Message Signing</PageTitle>
+
+<h1>Message Signing</h1>
+
+<p >Private key</p>
+
+<textarea class="form-control" rows="3" @bind="WalletWords" @bind:event="oninput" />
+
+<p class=" mb-1 mt-1">public key : @pubkey </p>
+<p class=" mb-1 mt-1">Address : @Address </p>
+
+<p >Data to sign</p>
+<textarea class="form-control" rows="3" @bind="SignData" @bind:event="oninput" />
+
+
+<button class="btn btn-primary mb-3 mt-3" @onclick="Sign">Sign Message</button>
+
+<p >Payload</p>
+<textarea class="form-control" rows="3" @bind="Payload" @bind:event="oninput" />
+
+
+<button class="btn btn-primary mb-3 mt-3" @onclick="Verify">VerifyMessage</button>
+
+<p >Result : @Result </p>
+
+
+@code {
+    public string WalletWords { get; set; } = string.Empty;
+
+    public string SignData { get; set; } = string.Empty;
+
+    public string Payload { get; set; } = string.Empty;
+    public string Address { get; set; } = string.Empty;
+    public string pubkey { get; set; } = string.Empty;
+
+    public string Result { get; set; } = string.Empty;
+
+    private int currentCount = 0;
+
+    NBitcoin.Key key;
+    Network network;
+
+    protected override async Task OnInitializedAsync()
+    {
+        key = new NBitcoin.Key();
+        network = Blockcore.Networks.Networks.Bitcoin.Mainnet();
+
+        WalletWords = key.ToString(network);
+        Address = key.PubKey.GetAddress(network).ToString();
+        pubkey = key.PubKey.ToHex();
+    }
+
+    private void Sign()
+    {
+        Payload = key.SignMessage(SignData);
+    }
+
+    private void Verify()
+    {
+        var success = key.PubKey.VerifyMessage(SignData, Payload);
+
+        Result = success.ToString();
+    }
+}
