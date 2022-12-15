@@ -32,7 +32,19 @@ export class AppComponent implements OnInit {
   paymentVerificationTransactionId: string | undefined = undefined;
   paymentTransactionId: string | undefined = undefined;
 
+  didSupportedMethodsResponse?: string[];
+  didRequestResponse: any;
+
   wallet: any;
+  nostrPublicKey = '';
+  nostrSignedEvent = '';
+
+  nostrEvent = {
+    created_at: Date.now(),
+    kind: 1,
+    tags: [],
+    content: 'This is my nostr message',
+  };
 
   // vcSubject = 'did:is:';
   vcType = 'EmailVerification';
@@ -72,6 +84,29 @@ export class AppComponent implements OnInit {
     this.provider.setNetwork(this.network);
 
     this.vcID = uuidv4();
+  }
+
+  async getNostrPublicKey() {
+    const gt = globalThis as any;
+
+    // Use nostr directly on global, similar to how most Nostr app will interact with the provider.
+    const pubKey = await gt.nostr.getPublicKey();
+    this.nostrPublicKey = pubKey;
+  }
+
+  async nostrSignEvent(event: any) {
+    console.log('SIGN THIS EVENT:', event);
+
+    const gt = globalThis as any;
+
+    try {
+      // Use nostr directly on global, similar to how most Nostr app will interact with the provider.
+      const signedEvent = await gt.nostr.signEvent(event);
+      this.nostrSignedEvent = signedEvent;
+    } catch (err: any) {
+      console.error(err);
+      this.nostrSignedEvent = err.toString();
+    }
   }
 
   async signMessageAnyAccount(value: string) {
@@ -214,9 +249,6 @@ export class AppComponent implements OnInit {
 
     return result;
   }
-
-  didSupportedMethodsResponse?: string[];
-  didRequestResponse: any;
 
   async didSupportedMethods() {
     const result = await this.request('did.supportedMethods');
