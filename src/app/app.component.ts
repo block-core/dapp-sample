@@ -32,6 +32,8 @@ export class AppComponent implements OnInit {
   paymentVerificationTransactionId: string | undefined = undefined;
   paymentTransactionId: string | undefined = undefined;
 
+  wallet: any;
+
   // vcSubject = 'did:is:';
   vcType = 'EmailVerification';
   vcID = uuidv4();
@@ -117,6 +119,7 @@ export class AppComponent implements OnInit {
       });
 
       console.log('Result:', result);
+      this.wallet = result;
     } catch (err) {
       console.error(err);
     }
