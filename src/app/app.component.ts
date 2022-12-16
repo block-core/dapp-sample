@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
   wallet: any;
   nostrPublicKey = '';
   nostrSignedEvent = '';
+  nostrRelays?: string[];
 
   nostrEvent = {
     created_at: Date.now(),
@@ -107,6 +108,12 @@ export class AppComponent implements OnInit {
       console.error(err);
       this.nostrSignedEvent = err.toString();
     }
+  }
+
+  async getNostrPublicRelays() {
+    const gt = globalThis as any;
+    const relays = await gt.nostr.getRelays();
+    this.nostrRelays = relays;
   }
 
   async signMessageAnyAccount(value: string) {

@@ -239,7 +239,7 @@
     
     <mat-card class="card">
       <mat-card-header>
-        <mat-card-title>Nostr:PublicKey</mat-card-title>
+        <mat-card-title>Nostr PublicKey</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p *ngIf="nostrPublicKey">Public Key: {{ nostrPublicKey }}</p>
@@ -251,7 +251,7 @@
 
     <mat-card class="card">
       <mat-card-header>
-        <mat-card-title>Nostr:SignEvent</mat-card-title>
+        <mat-card-title>Nostr SignEvent</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p *ngIf="nostrSignedEvent">
@@ -262,6 +262,18 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-flat-button color="primary" (click)="nostrSignEvent(nostrEvent)">Nostr - Sign Event</button>
+      </mat-card-actions>
+    </mat-card>
+        
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>Nostr Get Relays</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p *ngIf="nostrRelays">Relays: {{ nostrRelays }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="getNostrPublicRelays()">Nostr - Get Public Relays</button>
       </mat-card-actions>
     </mat-card>
 
