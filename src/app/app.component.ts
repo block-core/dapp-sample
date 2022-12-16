@@ -117,15 +117,19 @@ export class AppComponent implements OnInit {
   }
 
   async nostrEncrypt() {
+    this.nostrCipher = null;
+
     const gt = globalThis as any;
     const cipher = await gt.nostr.nip04.encrypt('public-key-is-currently-ignored', this.nostrEvent);
     this.nostrCipher = cipher;
   }
 
-  nostrCipher = '';
+  nostrCipher = null;
   nostrDecrypted = null;
 
   async nostrDecrypt() {
+    this.nostrDecrypted = null;
+
     const gt = globalThis as any;
     const event = await gt.nostr.nip04.decrypt('public-key-is-currently-ignored', this.nostrCipher);
 
