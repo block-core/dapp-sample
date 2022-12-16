@@ -116,6 +116,24 @@ export class AppComponent implements OnInit {
     this.nostrRelays = relays;
   }
 
+  async nostrEncrypt() {
+    const gt = globalThis as any;
+    const cipher = await gt.nostr.nip04.encrypt('public-key-is-currently-ignored', this.nostrEvent);
+    this.nostrCipher = cipher;
+  }
+
+  nostrCipher = '';
+  nostrDecrypted = null;
+
+  async nostrDecrypt() {
+    const gt = globalThis as any;
+    const event = await gt.nostr.nip04.decrypt('public-key-is-currently-ignored', this.nostrCipher);
+
+    console.log('EVENT FROM DECRYPT:', event);
+
+    this.nostrDecrypted = JSON.parse(event);
+  }
+
   async signMessageAnyAccount(value: string) {
     const result: any = await this.provider!.request({
       method: 'signMessage',
