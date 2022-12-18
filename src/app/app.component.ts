@@ -92,12 +92,11 @@ export class AppComponent implements OnInit {
 
     // Use nostr directly on global, similar to how most Nostr app will interact with the provider.
     const pubKey = await gt.nostr.getPublicKey();
+
     this.nostrPublicKey = pubKey;
   }
 
   async nostrSignEvent(event: any) {
-    console.log('SIGN THIS EVENT:', event);
-
     const gt = globalThis as any;
 
     try {
@@ -132,9 +131,6 @@ export class AppComponent implements OnInit {
 
     const gt = globalThis as any;
     const event = await gt.nostr.nip04.decrypt('public-key-is-currently-ignored', this.nostrCipher);
-
-    console.log('EVENT FROM DECRYPT:', event);
-
     this.nostrDecrypted = JSON.parse(event);
   }
 
@@ -281,7 +277,7 @@ export class AppComponent implements OnInit {
 
   async didSupportedMethods() {
     const result = await this.request('did.supportedMethods');
-    this.didSupportedMethodsResponse = result.response;
+    this.didSupportedMethodsResponse = result;
   }
 
   async didRequest(methods: string[]) {
@@ -293,7 +289,7 @@ export class AppComponent implements OnInit {
       },
     ]);
 
-    this.didRequestResponse = result.response;
+    this.didRequestResponse = result;
   }
 
   vcRequestResponse: any;
@@ -317,7 +313,7 @@ export class AppComponent implements OnInit {
       },
     ]);
 
-    this.vcRequestResponse = result.response;
+    this.vcRequestResponse = result;
   }
 
   onNetworkChanged() {
