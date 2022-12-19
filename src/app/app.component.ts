@@ -142,9 +142,9 @@ export class AppComponent implements OnInit {
     console.log('Result:', result);
 
     this.signedTextKey = result.key;
-    this.signedTextSignature = result.signature;
+    this.signedTextSignature = result.response.signature;
     this.signedTextNetwork = result.network;
-    this.signedTextValidSignature = bitcoinMessage.verify(value, result.key, result.signature);
+    this.signedTextValidSignature = bitcoinMessage.verify(value, result.key, result.response.signature);
   }
 
   async signMessageAnyAccountJson(value: string) {
@@ -158,10 +158,10 @@ export class AppComponent implements OnInit {
     console.log('Result:', result);
 
     this.signedJsonKey = result.key;
-    this.signedJsonSignature = result.signature;
+    this.signedJsonSignature = result.response.signature;
     this.signedJsonNetwork = result.network;
     const preparedMessage = JSON.stringify(message);
-    this.signedJsonValidSignature = bitcoinMessage.verify(preparedMessage, result.key, result.signature);
+    this.signedJsonValidSignature = bitcoinMessage.verify(preparedMessage, result.key, result.response.signature);
   }
 
   async connect() {
@@ -277,7 +277,7 @@ export class AppComponent implements OnInit {
 
   async didSupportedMethods() {
     const result = await this.request('did.supportedMethods');
-    this.didSupportedMethodsResponse = result;
+    this.didSupportedMethodsResponse = result.response;
   }
 
   async didRequest(methods: string[]) {
