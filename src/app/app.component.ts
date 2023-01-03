@@ -4,6 +4,8 @@ import * as bitcoinMessage from 'bitcoinjs-message';
 const { v4: uuidv4 } = require('uuid');
 import { DIDResolutionOptions, Resolver } from 'did-resolver';
 import is from '@blockcore/did-resolver';
+import * as secp256k1 from '@noble/secp256k1';
+import { sha256 } from '@noble/hashes/sha256';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +47,7 @@ export class AppComponent implements OnInit {
     kind: 1,
     tags: [],
     content: 'This is my nostr message',
-    pubkey: ''
+    pubkey: '',
   };
 
   // vcSubject = 'did:is:';
@@ -99,8 +101,27 @@ export class AppComponent implements OnInit {
     this.nostrEvent.pubkey = this.nostrPublicKey;
   }
 
+  serializeEvent(evt: any): string {
+    return JSON.stringify([
+      0,
+      evt.pubkey,
+      evt.created_at,
+      evt.kind,
+      evt.tags,
+      evt.content
+    ])
+  }
+
+  getEventHash(event: Event): string {
+    const utf8Encoder = new TextEncoder();
+    let eventHash = sha256(utf8Encoder.encode(this.serializeEvent(event)));
+    return secp256k1.utils.bytesToHex(eventHash);
+  }
+
   async nostrSignEvent(event: any) {
     const gt = globalThis as any;
+
+    event.id = this.getEventHash(event);
 
     try {
       // Use nostr directly on global, similar to how most Nostr app will interact with the provider.

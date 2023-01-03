@@ -22,6 +22,8 @@
     "@angular/router": "^14.2.0",
     "@blockcore/did-resolver": "^0.0.3",
     "@blockcore/provider": "^0.0.12",
+    "@noble/hashes": "^1.1.5",
+    "@noble/secp256k1": "^1.7.0",
     "bitcoinjs-message": "^2.2.0",
     "did-resolver": "^4.0.1",
     "rxjs": "~7.5.0",
