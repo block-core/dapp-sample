@@ -45,6 +45,7 @@ export class AppComponent implements OnInit {
     kind: 1,
     tags: [],
     content: 'This is my nostr message',
+    pubkey: ''
   };
 
   // vcSubject = 'did:is:';
@@ -94,6 +95,8 @@ export class AppComponent implements OnInit {
     const pubKey = await gt.nostr.getPublicKey();
 
     this.nostrPublicKey = pubKey;
+
+    this.nostrEvent.pubkey = this.nostrPublicKey;
   }
 
   async nostrSignEvent(event: any) {
@@ -119,7 +122,7 @@ export class AppComponent implements OnInit {
     this.nostrCipher = null;
 
     const gt = globalThis as any;
-    const cipher = await gt.nostr.nip04.encrypt('public-key-is-currently-ignored', this.nostrEvent);
+    const cipher = await gt.nostr.nip04.encrypt(this.nostrPublicKey, this.nostrEvent.content);
     this.nostrCipher = cipher;
   }
 
@@ -130,8 +133,8 @@ export class AppComponent implements OnInit {
     this.nostrDecrypted = null;
 
     const gt = globalThis as any;
-    const event = await gt.nostr.nip04.decrypt('public-key-is-currently-ignored', this.nostrCipher);
-    this.nostrDecrypted = JSON.parse(event);
+    const content = await gt.nostr.nip04.decrypt(this.nostrPublicKey, this.nostrCipher);
+    this.nostrDecrypted = content;
   }
 
   async signMessageAnyAccount(value: string) {

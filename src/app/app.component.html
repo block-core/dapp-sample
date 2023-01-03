@@ -201,8 +201,8 @@
           <p *ngIf="nostrDecrypted">nostrDecrypted: {{ nostrDecrypted | json }}</p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-flat-button color="primary" (click)="nostrEncrypt()">Nostr - Encrypt</button>
-          <button mat-flat-button color="primary" (click)="nostrDecrypt()">Nostr - Decrypt</button>
+          <button [disabled]="!nostrPublicKey" mat-flat-button color="primary" (click)="nostrEncrypt()">Nostr - Encrypt</button>
+          <button [disabled]="!nostrCipher" mat-flat-button color="primary" (click)="nostrDecrypt()">Nostr - Decrypt</button>
         </mat-card-actions>
       </mat-card>
     </mat-tab>
