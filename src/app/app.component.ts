@@ -160,7 +160,7 @@ export class AppComponent implements OnInit {
             { hint: 'Swap', address: 'yRZBBWkf4THjC5qqfvoJaV2qn4pLJnkHH9', amount: 100000000 },
             { hint: 'Fee Service', address: 'pRZBBWkf4THjC5qqfvoJaV2qn4pLJnkHH9', amount: 20000000 },
           ],
-          data: 'op_return',
+          // data: 'op_return',
           feeRate: 'medium',
           network: this.provider?.indexer.network,
         },
