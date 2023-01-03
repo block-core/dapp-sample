@@ -102,14 +102,7 @@ export class AppComponent implements OnInit {
   }
 
   serializeEvent(evt: any): string {
-    return JSON.stringify([
-      0,
-      evt.pubkey,
-      evt.created_at,
-      evt.kind,
-      evt.tags,
-      evt.content
-    ])
+    return JSON.stringify([0, evt.pubkey, evt.created_at, evt.kind, evt.tags, evt.content]);
   }
 
   getEventHash(event: Event): string {
@@ -156,6 +149,29 @@ export class AppComponent implements OnInit {
     const gt = globalThis as any;
     const content = await gt.nostr.nip04.decrypt(this.nostrPublicKey, this.nostrCipher);
     this.nostrDecrypted = content;
+  }
+
+  async sendTransaction() {
+    const result: any = await this.provider!.request({
+      method: 'transaction.send',
+      params: [
+        {
+          recipients: [
+            { hint: 'Swap', address: 'yRZBBWkf4THjC5qqfvoJaV2qn4pLJnkHH9', amount: 100000000 },
+            { hint: 'Fee Service', address: 'pRZBBWkf4THjC5qqfvoJaV2qn4pLJnkHH9', amount: 20000000 },
+          ],
+          data: 'op_return',
+          feeRate: 'medium',
+          network: this.provider?.indexer.network,
+        },
+      ],
+    });
+    console.log('Result:', result);
+
+    // this.signedTextKey = result.key;
+    // this.signedTextSignature = result.response.signature;
+    // this.signedTextNetwork = result.network;
+    // this.signedTextValidSignature = bitcoinMessage.verify(value, result.key, result.response.signature);
   }
 
   async signMessageAnyAccount(value: string) {
