@@ -291,6 +291,22 @@
         </mat-card-actions>
       </mat-card>
     </mat-tab>
+    <mat-tab label="Atomic Swap">
+      <br />
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Connect Wallet and get accounts and balances</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="wallet">
+            {{ wallet | json }}
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="connect()">Connect</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
   </mat-tab-group>
 
   <div>
