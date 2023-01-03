@@ -20,273 +20,280 @@
 </p>
 
 <div class="page">
-  <mat-card *ngIf="provider"> CURRENT NETWORK: {{ provider.indexer.network }} </mat-card>
-
-  <div class="actions">
-    <br />
-
+  <div class="actions" *ngIf="!provider">
     <p>
-      <button mat-flat-button (click)="initialize()">initialize provider</button>
-      <mat-form-field *ngIf="provider" appearance="outline">
-        <mat-label>Network</mat-label>
-        <mat-select (selectionChange)="onNetworkChanged()" [(ngModel)]="network">
-          <mat-option *ngFor="let network of networks" [value]="network.id">
-            {{ network.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <button mat-flat-button (click)="initialize()">Initialize provider</button>
     </p>
   </div>
 
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-card-title>DID Resolve (lookup)</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      This sample does not interact with the wallet, it performs a standard DID Resolve using the <a href="https://www.npmjs.com/package/@blockcore/did-resolver" target="_blank">@blockcore/did-resolver</a> library.
+  <mat-tab-group class="actions" *ngIf="provider">
+    <mat-tab label="Blockcore">
+      <br />
 
-      <mat-form-field class="input-full-width" appearance="outline">
-        <mat-label>DID ID</mat-label>
-        <input matInput type="text" [(ngModel)]="didLookup" />
-      </mat-form-field>
-
-      <p class="long" *ngIf="didLookupResponse">DID Resolution: {{ didLookupResponse | json }}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-flat-button color="primary" (click)="resolveDid()">DID Resolve</button>
-    </mat-card-actions>
-  </mat-card>
-
-  <div class="actions" *ngIf="provider">
-    <br />
-
-    <p>
-      <button mat-flat-button (click)="connect()" disabled="disabled">connect</button>
-      <button mat-flat-button (click)="getAccounts()" disabled="disabled">get_accounts</button>
-    </p>
-
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Connect Wallet and get accounts and balances</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div *ngIf="wallet">
-          {{ wallet | json }}
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="connect()">Connect</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Signing (text)</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-form-field class="input-full-width" appearance="outline">
-          <mat-label>Basic text</mat-label>
-          <input matInput type="text" [(ngModel)]="signingText" />
-        </mat-form-field>
-        <div *ngIf="signedTextSignature">
-          <p>Signature:<br />{{ signedTextSignature }}</p>
-          <p>Key/Address:<br />{{ signedTextKey }}</p>
-          <p>Network:<br />{{ signedTextNetwork }}<br /></p>
-          <p>Is Signature Valid:<br />{{ signedTextValidSignature }}<br /></p>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="signMessageAnyAccount(signingText)">Request Signing</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Signing (JSON)</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-form-field class="input-full-width" appearance="outline">
-          <mat-label>JSON structure</mat-label>
-          <textarea matInput rows="6" [(ngModel)]="signingJson"></textarea>
-        </mat-form-field>
-        <div *ngIf="signedJsonSignature">
-          <p>Signature:<br />{{ signedJsonSignature }}</p>
-          <p>Key/Address:<br />{{ signedJsonKey }}</p>
-          <p>Network:<br />{{ signedJsonNetwork }}<br /></p>
-          <p>Is Signature Valid:<br />{{ signedJsonValidSignature }}<br /></p>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="signMessageAnyAccountJson(signingJson)">Request Signing</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Payment Request</mat-card-title>
-        <mat-card-subtitle>This example will request a payment, when payment is performed, the transaction ID is returned.</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-form-field class="input-full-width" appearance="outline">
-          <mat-label>Amount</mat-label>
-          <input matInput type="text" [(ngModel)]="paymentRequestAmount" />
-        </mat-form-field>
-
-        <p *ngIf="paymentTransactionId">Transaction ID: {{ paymentTransactionId }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="paymentRequest(network, paymentRequestAmount)">Payment Request</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Registration and Payment (City Coin)</mat-card-title>
-        <mat-card-subtitle>
-          This example will first request an DID, and then ask user to make a payment that is signed (attested) using the very same DID. The dapp will then query the blockchain API to find input to payment and verify amounts and target
-          address.</mat-card-subtitle
-        >
-      </mat-card-header>
-      <mat-card-content>
-        <p *ngIf="didRequestResponse">
-          DID: {{ didRequestResponse.did }}<br />
-          <span class="long">Proof: {{ didRequestResponse.proof }}</span
-          ><br />
+      <div class="actions">
+        <br />
+        <p>
+          <mat-form-field *ngIf="provider" appearance="outline">
+            <mat-label>Network</mat-label>
+            <mat-select (selectionChange)="onNetworkChanged()" [(ngModel)]="network">
+              <mat-option *ngFor="let network of networks" [value]="network.id">
+                {{ network.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </p>
+      </div>
 
-        <button mat-flat-button color="primary" (click)="didRequest([])">Select DID Request</button>
+      <!-- <mat-card *ngIf="provider"> CURRENT NETWORK: {{ provider.indexer.network }} </mat-card> -->
 
-        <mat-form-field class="input-full-width" appearance="outline">
-          <mat-label>Amount</mat-label>
-          <input matInput type="text" [(ngModel)]="paymentVerificationRequestAmount" />
-        </mat-form-field>
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Connect Wallet and get accounts and balances</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="wallet">
+            {{ wallet | json }}
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="connect()">Connect</button>
+        </mat-card-actions>
+      </mat-card>
 
-        <div *ngIf="paymentVerificationTransactionId">
-          <p>Transaction ID: {{ paymentVerificationTransactionId }}</p>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="paymentVerificationRequest('CITY', paymentVerificationRequestAmount)">Payment Request</button>
-      </mat-card-actions>
-    </mat-card>
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Signing (text)</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>Basic text</mat-label>
+            <input matInput type="text" [(ngModel)]="signingText" />
+          </mat-form-field>
+          <div *ngIf="signedTextSignature">
+            <p>Signature:<br />{{ signedTextSignature }}</p>
+            <p>Key/Address:<br />{{ signedTextKey }}</p>
+            <p>Network:<br />{{ signedTextNetwork }}<br /></p>
+            <p>Is Signature Valid:<br />{{ signedTextValidSignature }}<br /></p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="signMessageAnyAccount(signingText)">Request Signing</button>
+        </mat-card-actions>
+      </mat-card>
 
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>DID Supported Methods</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p *ngIf="didSupportedMethodsResponse">DID Methods: {{ didSupportedMethodsResponse }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="didSupportedMethods()">Supported DID Methods</button>
-      </mat-card-actions>
-    </mat-card>
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Signing (JSON)</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>JSON structure</mat-label>
+            <textarea matInput rows="6" [(ngModel)]="signingJson"></textarea>
+          </mat-form-field>
+          <div *ngIf="signedJsonSignature">
+            <p>Signature:<br />{{ signedJsonSignature }}</p>
+            <p>Key/Address:<br />{{ signedJsonKey }}</p>
+            <p>Network:<br />{{ signedJsonNetwork }}<br /></p>
+            <p>Is Signature Valid:<br />{{ signedJsonValidSignature }}<br /></p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="signMessageAnyAccountJson(signingJson)">Request Signing</button>
+        </mat-card-actions>
+      </mat-card>
 
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>DID Request</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p *ngIf="didRequestResponse">
-          DID: {{ didRequestResponse.did }}<br />
-          <span class="long">Proof: {{ didRequestResponse.proof }}</span
-          ><br />
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="didRequest([])">Select DID Request</button> <button mat-flat-button color="primary" (click)="didRequest(['did:jwk'])">Select DID Request (filter: did:jwk)</button>
-      </mat-card-actions>
-    </mat-card>
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Payment Request</mat-card-title>
+          <mat-card-subtitle>This example will request a payment, when payment is performed, the transaction ID is returned.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input matInput type="text" [(ngModel)]="paymentRequestAmount" />
+          </mat-form-field>
 
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>VC Request</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <!-- <mat-form-field class="input-full-width" appearance="outline">
+          <p *ngIf="paymentTransactionId">Transaction ID: {{ paymentTransactionId }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="paymentRequest(network, paymentRequestAmount)">Payment Request</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Registration and Payment (City Coin)</mat-card-title>
+          <mat-card-subtitle>
+            This example will first request an DID, and then ask user to make a payment that is signed (attested) using the very same DID. The dapp will then query the blockchain API to find input to payment and verify amounts and target
+            address.</mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="didRequestResponse">
+            DID: {{ didRequestResponse.did }}<br />
+            <span class="long">Proof: {{ didRequestResponse.proof }}</span
+            ><br />
+          </p>
+
+          <button mat-flat-button color="primary" (click)="didRequest([])">Select DID Request</button>
+
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input matInput type="text" [(ngModel)]="paymentVerificationRequestAmount" />
+          </mat-form-field>
+
+          <div *ngIf="paymentVerificationTransactionId">
+            <p>Transaction ID: {{ paymentVerificationTransactionId }}</p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="paymentVerificationRequest('CITY', paymentVerificationRequestAmount)">Payment Request</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Nostr">
+      <br /><br />
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Nostr PublicKey</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="nostrPublicKey">Public Key: {{ nostrPublicKey }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="getNostrPublicKey()">Nostr - Get Public Key</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Nostr SignEvent</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="nostrSignedEvent">
+            {{ nostrSignedEvent | json }}
+          </p>
+          <p>Use the <a href="https://nostr-army-knife.netlify.app/" target="_blank">nostr army knife</a> to validate signed events</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="nostrSignEvent(nostrEvent)">Nostr - Sign Event</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Nostr Get Relays</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="nostrRelays">Relays: {{ nostrRelays | json }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="getNostrPublicRelays()">Nostr - Get Public Relays</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Nostr Encrypt / Decrypt</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="nostrCipher">nostrCipher: {{ nostrCipher | json }}</p>
+          <p *ngIf="nostrDecrypted">nostrDecrypted: {{ nostrDecrypted | json }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="nostrEncrypt()">Nostr - Encrypt</button>
+          <button mat-flat-button color="primary" (click)="nostrDecrypt()">Nostr - Decrypt</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Web 5">
+      <br /><br />
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>DID Resolve (lookup)</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          This sample does not interact with the wallet, it performs a standard DID Resolve using the <a href="https://www.npmjs.com/package/@blockcore/did-resolver" target="_blank">@blockcore/did-resolver</a> library.
+
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>DID ID</mat-label>
+            <input matInput type="text" [(ngModel)]="didLookup" />
+          </mat-form-field>
+
+          <p class="long" *ngIf="didLookupResponse">DID Resolution: {{ didLookupResponse | json }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="resolveDid()">DID Resolve</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>DID Supported Methods</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="didSupportedMethodsResponse">DID Methods: {{ didSupportedMethodsResponse }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="didSupportedMethods()">Supported DID Methods</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>DID Request</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p *ngIf="didRequestResponse">
+            DID: {{ didRequestResponse.did }}<br />
+            <span class="long">Proof: {{ didRequestResponse.proof }}</span
+            ><br />
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="didRequest([])">Select DID Request</button> <button mat-flat-button color="primary" (click)="didRequest(['did:jwk'])">Select DID Request (filter: did:jwk)</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>VC Request</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <!-- <mat-form-field class="input-full-width" appearance="outline">
           <mat-label>DID (target)</mat-label>
           <input matInput type="text" [(ngModel)]="vcSubject" />
         </mat-form-field> -->
 
-        <mat-form-field class="input-full-width" appearance="outline">
-          <mat-label>Type (e.g. "VerifiableBusinessCard")</mat-label>
-          <input matInput type="text" [(ngModel)]="vcType" />
-        </mat-form-field>
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>Type (e.g. "VerifiableBusinessCard")</mat-label>
+            <input matInput type="text" [(ngModel)]="vcType" />
+          </mat-form-field>
 
-        <mat-form-field class="input-full-width" appearance="outline">
-          <mat-label>ID (unique identifier of this specific credential)</mat-label>
-          <input matInput type="text" [(ngModel)]="vcID" />
-        </mat-form-field>
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>ID (unique identifier of this specific credential)</mat-label>
+            <input matInput type="text" [(ngModel)]="vcID" />
+          </mat-form-field>
 
-        <mat-form-field class="input-full-width" appearance="outline">
-          <mat-label>Credential (Your claim about the DID)</mat-label>
-          <textarea matInput rows="6" [(ngModel)]="vcClaim"></textarea>
-        </mat-form-field>
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>Credential (Your claim about the DID)</mat-label>
+            <textarea matInput rows="6" [(ngModel)]="vcClaim"></textarea>
+          </mat-form-field>
 
-        <p *ngIf="vcRequestResponse">
-          DID: {{ vcRequestResponse.did }}<br /><br />
-          VC: <span class="long">{{ vcRequestResponse.vc }}</span
-          ><br />
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="vcRequest()">Send VC Request</button>
-      </mat-card-actions>
-    </mat-card>
+          <p *ngIf="vcRequestResponse">
+            DID: {{ vcRequestResponse.did }}<br /><br />
+            VC: <span class="long">{{ vcRequestResponse.vc }}</span
+            ><br />
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="vcRequest()">Send VC Request</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
 
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Nostr PublicKey</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p *ngIf="nostrPublicKey">Public Key: {{ nostrPublicKey }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="getNostrPublicKey()">Nostr - Get Public Key</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Nostr SignEvent</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p *ngIf="nostrSignedEvent">
-          {{ nostrSignedEvent | json }}
-        </p>
-        <p>Use the <a href="https://nostr-army-knife.netlify.app/" target="_blank">nostr army knife</a> to validate signed events</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="nostrSignEvent(nostrEvent)">Nostr - Sign Event</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Nostr Get Relays</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p *ngIf="nostrRelays">Relays: {{ nostrRelays | json }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="getNostrPublicRelays()">Nostr - Get Public Relays</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>Nostr Encrypt / Decrypt</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p *ngIf="nostrCipher">nostrCipher: {{ nostrCipher }}</p>
-        <p *ngIf="nostrDecrypted">nostrDecrypted: {{ nostrDecrypted }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="nostrEncrypt()">Nostr - Encrypt</button>
-        <button mat-flat-button color="primary" (click)="nostrDecrypt()">Nostr - Decrypt</button>
-      </mat-card-actions>
-    </mat-card>
-
+  <div>
     <router-outlet></router-outlet>
   </div>
   <br />
