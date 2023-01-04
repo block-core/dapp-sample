@@ -151,14 +151,16 @@ export class AppComponent implements OnInit {
     this.nostrDecrypted = content;
   }
 
+  transactionResult: any = undefined;
+
   async sendTransaction() {
     const result: any = await this.provider!.request({
       method: 'transaction.send',
       params: [
         {
           recipients: [
-            { hint: 'Swap', address: 'yRZBBWkf4THjC5qqfvoJaV2qn4pLJnkHH9', amount: 100000000 },
-            { hint: 'Fee Service', address: 'pRZBBWkf4THjC5qqfvoJaV2qn4pLJnkHH9', amount: 20000000 },
+            { hint: 'Swap', address: 'CMrc2rFsPd9VnxPiHvN2wHFVNfNd9vY8Ze', amount: 100000000 },
+            { hint: 'Fee Service', address: 'CMrc2rFsPd9VnxPiHvN2wHFVNfNd9vY8Ze', amount: 20000000 },
           ],
           // data: 'op_return',
           feeRate: 'medium',
@@ -166,7 +168,10 @@ export class AppComponent implements OnInit {
         },
       ],
     });
+
     console.log('Result:', result);
+
+    this.transactionResult = result;
 
     // this.signedTextKey = result.key;
     // this.signedTextSignature = result.response.signature;
