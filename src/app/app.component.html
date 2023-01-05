@@ -205,6 +205,18 @@
           <button [disabled]="!nostrCipher" mat-flat-button color="primary" (click)="nostrDecrypt()">Nostr - Decrypt</button>
         </mat-card-actions>
       </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Protocol Handler</mat-card-title>
+        </mat-card-header>
+        <mat-card-content> Different clients can register themselves as protocol handler for "web+nostr" links. You can test the links here. </mat-card-content>
+        <mat-card-actions>
+          <p><a mat-flat-button color="primary" href="web+nostr:npub:17e2889fba01021d048a13fd0ba108ad31c38326295460c21e69c43fa8fbe515" target="_blank">npub: sondreb</a></p>
+          <p><a mat-flat-button color="primary" href="web+nostr:nevent:5346a112a740bc4c80bf85c0327044b86494fe4ed024545b026f322dbf7ec344" target="_blank">nevent: sondreb</a></p>
+          <p><a mat-flat-button color="primary" href="web+nostr:nprofile:17e2889fba01021d048a13fd0ba108ad31c38326295460c21e69c43fa8fbe515" target="_blank">nprofile: sondreb (need to be updated with relay info)</a></p>
+        </mat-card-actions>
+      </mat-card>
     </mat-tab>
     <mat-tab label="Web 5">
       <br /><br />
