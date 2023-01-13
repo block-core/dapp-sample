@@ -1,0 +1,63 @@
+﻿@page "/blockcorewallet"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime;
+
+<PageTitle>Blockcore Wallet</PageTitle>
+
+<h1>Blockcore Wallet!</h1>
+@if (!HasBlockcoreWallet)
+{
+	<p>No Blockcore Wallet detected. Please install <a href="https://chrome.google.com/webstore/detail/blockcore-wallet/peigonhbenoefaeplkpalmafieegnapj" target="_blank">Blockcore Wallet</a>.</p>
+}
+else
+{
+	<button class="btn btn-primary" @onclick="@(() => SignMessage("message"))">Ask for Signing (Message)</button>
+	<br />
+	<div class="form-control mt-3 p-3">
+		<p>@SignedMessage</p>
+	</div>
+
+	<hr />
+
+	<button class="btn btn-primary" @onclick="@(() => SignMessageAnyAccount("message"))">Signing (text)</button>
+	<br />
+	<div class="form-control mt-3 p-3">
+		<p>@SignedMessageAnyAccount</p>
+	</div>
+
+	<hr />
+
+	<button class="btn btn-primary" @onclick="@(() => SignMessageAnyAccountJson("{ \"id\": 5, \"text\": \"Hello World\" }"))">Signing (Json)</button>
+	<br />
+	<div class="form-control mt-3 p-3">
+		<p>@SignedMessageAnyAccountJson</p>
+	</div>
+
+	<hr />
+
+	<button class="btn btn-primary" @onclick="@(() => PaymentRequest("BTC","2"))">Payment Request</button>
+	<br />
+	<div class="form-control mt-3 p-3">
+		<p>@PaymentRequestResult</p>
+	</div>
+
+	<hr />
+
+	<button class="btn btn-primary" @onclick="@(() => DIDSupportedMethods())">Supported DID Methods</button>
+	<br />
+	<div class="form-control mt-3 p-3">
+		<p>@DIDSupportedMethodsResult</p>
+	</div>
+	
+	<hr />
+
+	<button class="btn btn-primary" @onclick="@(() => DIDRequest(@arr))">Select DID Request</button>
+	<br />
+	<div class="form-control mt-3 p-3">
+		<p>@DIDRequestResult</p>
+	</div>
+	
+
+
+	
+}

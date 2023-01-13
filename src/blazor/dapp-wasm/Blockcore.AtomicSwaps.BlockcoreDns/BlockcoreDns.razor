@@ -1,0 +1,46 @@
+﻿@page "/blockcoredns"
+@using Blockcore.AtomicSwaps.BlockcoreDns
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime;
+
+<PageTitle>Blockcore Dns</PageTitle>
+
+<h1>Blockcore Dns!</h1>
+
+
+<div class="form-control mb-3 p-3">@blockcoreDnsUrl</div>
+
+<input class="form-control mb-3" @bind="network" @bind:event="oninput" placeholder="network"/>
+<input class="form-control mb-3" @bind="type" @bind:event="oninput" placeholder="type" />
+
+<button class="btn btn-primary" @onclick="GetServicesByNetwork">Get Services By Network</button>
+<button class="btn btn-primary" @onclick="GetServicesByType">Get Services By Type</button>
+<button class="btn btn-primary" @onclick="GetServicesByTypeAndNetwork">Get Services By Type And Network</button>
+
+ <br />
+<div class="form-control mt-3 p-3">
+	@if (services != null)
+	{
+	foreach (var ns in services)
+{
+	<h3>@ns.Url</h3>
+	@foreach (var dr in ns.DnsResults)
+	{
+		<ul>
+			@if (!dr.Online)
+					{
+						textColor = "text-danger";
+					}
+					else{
+						textColor = "text-success";
+					}
+			<li class="@textColor">
+				@dr.Domain
+			</li>
+		</ul>
+	}
+}
+	}
+
+</div>
+ 

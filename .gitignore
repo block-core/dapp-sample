@@ -48,3 +48,5 @@ Thumbs.db
 /src/blazor/dapp-wasm/Blockcore.MetaMask/obj
 /src/blazor/dapp-wasm/Blockcore.AtomicSwaps.BlockcoreDns/obj
 /src/blazor/dapp-wasm/Blockcore.AtomicSwaps.BlockcoreWallet/obj
+/src/blazor/dapp-wasm/Blockcore.AtomicSwaps.BlockcoreWallet/Script/node_modules/.bin
+/src/blazor/dapp-wasm/Blockcore.AtomicSwaps.BlockcoreWallet/Script/node_modules

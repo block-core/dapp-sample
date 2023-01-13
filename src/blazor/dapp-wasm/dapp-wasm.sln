@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dapp-wasm", "dapp-wasm\dapp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.MetaMask", "Blockcore.MetaMask\Blockcore.MetaMask.csproj", "{E959D45D-6931-4977-89A7-60BF2FDDE18D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.AtomicSwaps.BlockcoreDns", "Blockcore.AtomicSwaps.BlockcoreDns\Blockcore.AtomicSwaps.BlockcoreDns.csproj", "{6E5116F7-7A42-45C8-A389-6BD7DBBEF052}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.AtomicSwaps.BlockcoreWallet", "Blockcore.AtomicSwaps.BlockcoreWallet\Blockcore.AtomicSwaps.BlockcoreWallet.csproj", "{602033E1-57C3-458F-BC2C-B0B1E88A91E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{E959D45D-6931-4977-89A7-60BF2FDDE18D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E959D45D-6931-4977-89A7-60BF2FDDE18D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E959D45D-6931-4977-89A7-60BF2FDDE18D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E5116F7-7A42-45C8-A389-6BD7DBBEF052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E5116F7-7A42-45C8-A389-6BD7DBBEF052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E5116F7-7A42-45C8-A389-6BD7DBBEF052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E5116F7-7A42-45C8-A389-6BD7DBBEF052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{602033E1-57C3-458F-BC2C-B0B1E88A91E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{602033E1-57C3-458F-BC2C-B0B1E88A91E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{602033E1-57C3-458F-BC2C-B0B1E88A91E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{602033E1-57C3-458F-BC2C-B0B1E88A91E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
