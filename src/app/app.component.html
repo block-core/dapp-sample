@@ -31,7 +31,6 @@
       <br />
 
       <div class="actions">
-        <br />
         <p>
           <mat-form-field *ngIf="provider" appearance="outline">
             <mat-label>Network</mat-label>
@@ -304,7 +303,21 @@
       </mat-card>
     </mat-tab>
     <mat-tab label="Atomic Swap">
-      <br />
+
+      <div class="actions">
+        <br />
+        <p>
+          <mat-form-field *ngIf="provider" appearance="outline">
+            <mat-label>Network</mat-label>
+            <mat-select (selectionChange)="onNetworkChanged()" [(ngModel)]="network">
+              <mat-option *ngFor="let network of networks" [value]="network.id">
+                {{ network.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+      </div>
+
       <mat-card class="card">
         <mat-card-header>
           <mat-card-title>Connect Wallet and get accounts and balances</mat-card-title>

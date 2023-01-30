@@ -220,6 +220,8 @@ export class AppComponent implements OnInit {
       method: 'atomicswaps.send',
       params: [
         {
+          walletId: this.wallet.response.wallet.id,
+          accountId: this.atomicSwapAccountId,
           network: this.provider?.indexer.network,
         },
       ],
