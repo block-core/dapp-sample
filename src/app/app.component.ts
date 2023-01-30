@@ -196,18 +196,23 @@ export class AppComponent implements OnInit {
   }
 
   atomicSwapPublicKey?: string;
+  atomicSwapSecretKey?: string;
 
   async atomicSwapSecret() {
     const result: any = await this.provider!.request({
       method: 'atomicswaps.secret',
       params: [
         {
+          walletId: this.wallet.response.wallet.id,
+          accountId: this.atomicSwapAccountId,
           network: this.provider?.indexer.network,
+          message: '1', // "sessionid"?
         },
       ],
     });
 
     console.log('Result:', result);
+    this.atomicSwapSecretKey = result.response.secret;
   }
 
   async atomicSwapSend() {
