@@ -179,6 +179,50 @@ export class AppComponent implements OnInit {
     // this.signedTextValidSignature = bitcoinMessage.verify(value, result.key, result.response.signature);
   }
 
+  async atomicSwapKey() {
+    const result: any = await this.provider!.request({
+      method: 'atomicswaps.key',
+      params: [
+        {
+          walletId: this.wallet.response.wallet.id,
+          accountId: this.atomicSwapAccountId,
+          network: this.provider?.indexer.network,
+        },
+      ],
+    });
+
+    console.log('Result:', result);
+    this.atomicSwapPublicKey = result.response.publicKey;
+  }
+
+  atomicSwapPublicKey?: string;
+
+  async atomicSwapSecret() {
+    const result: any = await this.provider!.request({
+      method: 'atomicswaps.secret',
+      params: [
+        {
+          network: this.provider?.indexer.network,
+        },
+      ],
+    });
+
+    console.log('Result:', result);
+  }
+
+  async atomicSwapSend() {
+    const result: any = await this.provider!.request({
+      method: 'atomicswaps.send',
+      params: [
+        {
+          network: this.provider?.indexer.network,
+        },
+      ],
+    });
+
+    console.log('Result:', result);
+  }
+
   async signMessageAnyAccount(value: string) {
     const result: any = await this.provider!.request({
       method: 'signMessage',
@@ -229,6 +273,8 @@ export class AppComponent implements OnInit {
       console.error(err);
     }
   }
+
+  atomicSwapAccountId?: string;
 
   getAccounts() {}
 

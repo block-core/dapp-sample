@@ -333,6 +333,51 @@
           <button mat-flat-button color="primary" (click)="sendTransaction()">Send Transaction</button>
         </mat-card-actions>
       </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Atomic Swap Public Key</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="wallet">
+            Wallet: {{ wallet.response.wallet.name }}
+            <p>
+              <mat-form-field *ngIf="provider" appearance="outline">
+                <mat-label>Accounts</mat-label>
+                <mat-select [(ngModel)]="atomicSwapAccountId">
+                  <mat-option *ngFor="let account of wallet.response.accounts" [value]="account.id"> {{ account.name }} ({{ account.networkType }}) </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </p>
+            <p *ngIf="atomicSwapPublicKey">
+              {{atomicSwapPublicKey}}
+            </p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="atomicSwapKey()">Get Key</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Atomic Swap Secret</mat-card-title>
+        </mat-card-header>
+        <mat-card-content> </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="atomicSwapSecret()">Get Secret</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Atomic Swap Send</mat-card-title>
+        </mat-card-header>
+        <mat-card-content> </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="atomicSwapSend()">Send</button>
+        </mat-card-actions>
+      </mat-card>
     </mat-tab>
   </mat-tab-group>
 
