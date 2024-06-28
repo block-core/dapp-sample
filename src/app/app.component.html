@@ -82,6 +82,24 @@
 
       <mat-card class="card">
         <mat-card-header>
+          <mat-card-title>Signing PSBT</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field class="input-full-width" appearance="outline">
+            <mat-label>Raw PSBT</mat-label>
+            <input matInput type="text" [(ngModel)]="rawPSBT" />
+          </mat-form-field>
+          <div *ngIf="signedPsbtSignature">
+            <p>Signed PSBT:<br />{{ signedPsbtSignature }}</p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="signPsbtAnyAccount(rawPSBT)">Request Signing</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
           <mat-card-title>Signing (JSON)</mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -303,7 +321,6 @@
       </mat-card>
     </mat-tab>
     <mat-tab label="Atomic Swap">
-
       <div class="actions">
         <br />
         <p>
