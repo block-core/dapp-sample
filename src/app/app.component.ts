@@ -24,6 +24,12 @@ export class AppComponent implements OnInit {
   signedTextNetwork?: string;
   signedTextValidSignature?: boolean;
 
+  // rawPSBT is a Base64-encoded string representing the PSBT
+  rawPSBT: string =
+    '70736274ff010052020000000197ad5142d4b313e39d06320d52aa608c06525dd3aad59f3033306cc7dae20ecc0000000000ffffffff01e803000000000000160014d85c2b71d0060b09c9886aeb815e50991dda124d00000000000100e10200000000010179c41695a3be63ad012bdfb3e4fa1e1ed529b546671ee175eca105193940394f0100000000fdffffff02e8030000000000001976a914ad0e5d23994e4aedea78930662c1488ca2544efd88ac4232000000000000160014e3b767040067973106e977f46b9b449fd67f92120247304402200268c49c6e89dd3b8d59b78e35612ec2685730bc471aba3a49edd58d08d089cb02203e12e950cd59f7e0af3da88e33e221247c9ccada7a43ee4910e4d589245c37c80121026b0945d725e12b3c8fe123858bfb4d6da697329b8fbe5e02ee1e0b6ccdf3be79efd42b002206030272524d872070574dc2d183060efb8e691b0d3523e965644384446ec53190f4186c127a852c000080010000800000008000000000000000000000';
+
+  signedPsbtSignature?: string;
+
   signedJsonSignature?: string;
   signedJsonKey?: string;
   signedJsonNetwork?: string;
@@ -241,6 +247,16 @@ export class AppComponent implements OnInit {
     this.signedTextSignature = result.response.signature;
     this.signedTextNetwork = result.network;
     this.signedTextValidSignature = bitcoinMessage.verify(value, result.key, result.response.signature);
+  }
+
+  async signPsbtAnyAccount(value: string) {
+    const result: any = await this.provider!.request({
+      method: 'signPsbt',
+      params: [{ message: value, network: this.provider?.indexer.network }],
+    });
+    console.log('Result:', result);
+
+    this.signedPsbtSignature = result.response.signature;
   }
 
   async signMessageAnyAccountJson(value: string) {
